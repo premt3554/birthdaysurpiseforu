@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Happy Birthday Angel 🎂💕</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <!-- Same fonts as original page -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Pacifico&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg1: linear-gradient(135deg,#ffeef7 10%,#fff9f5 100%);
+      --accent: #ff5fa2;
+      --muted: #e8e9ea;
+      --paper: #fff9f5;
+      --text: #3b2a36;
+      --shadow: 0 10px 44px rgba(216,27,96,0.22);
+      --note-border: #ffb6d5;
+      --font-cursive: "Pacifico", cursive;
+      --font-sans: "Montserrat", sans-serif;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:var(--font-sans);background:var(--bg1);color:var(--text);-webkit-font-smoothing:antialiased}
+    a{color:inherit;text-decoration:none}
+    .bg-hearts{position:fixed;left:0;top:0;width:100vw;height:100vh;pointer-events:none;z-index:0;overflow:hidden}
+    .heart-emoji,.face-emoji{position:absolute;font-size:1.8rem;opacity:0.85;will-change:transform;user-select:none}
+    @keyframes floatUp{
+      0%{transform:translateY(120vh) scale(0.95);opacity:0}
+      30%{opacity:1}
+      100%{transform:translateY(-30vh) scale(1.15);opacity:0.6}
+    }
+
+    .page{min-height:100vh;min-width:100vw;display:none;align-items:center;justify-content:center;flex-direction:column;position:fixed;left:0;top:0;padding:3rem;z-index:2}
+    .page.active{display:flex}
+    .center{display:flex;align-items:center;justify-content:center;flex-direction:column}
+
+    .main-heading{font-family:var(--font-cursive);font-size:2.4rem;color:var(--accent);text-shadow:0 6px 20px rgba(255,255,255,0.7);margin-bottom:1.2rem;letter-spacing:1px}
+    .sub{font-size:1rem;color:rgba(0,0,0,0.52);margin-top:0.6rem}
+
+    .btn{font-family:var(--font-cursive);background:linear-gradient(90deg,#ffb6d5 20%,#fff9f5 100%);color:var(--accent);border:none;padding:0.85rem 2rem;border-radius:30px;font-size:1.05rem;cursor:pointer;box-shadow:0 6px 20px rgba(232,62,140,0.18);transition:transform .14s}
+    .btn:active{transform:scale(.99)}
+
+    .cake-area{display:flex;flex-direction:column;align-items:center;gap:12px}
+    .cake-emoji{font-size:110px;transition:transform .4s cubic-bezier(.2,.9,.23,1);filter:drop-shadow(0 6px 22px rgba(232,62,140,.18))}
+    .candles{display:flex;gap:10px}
+    .candle{width:14px;height:36px;border-radius:6px;background:#ffe4b5;position:relative}
+    .flame{position:absolute;left:50%;top:-18px;transform:translateX(-50%);width:18px;height:22px;border-radius:50%;background:radial-gradient(circle at 40% 30%,#ffd700 60%,#ff8c00 100%);animation:flicker 1.08s infinite alternate}
+    @keyframes flicker{from{transform:translateX(-50%) scaleY(1)}to{transform:translateX(-50%) scaleY(1.12)}}
+
+    .balloon{position:absolute;bottom:-180px;width:52px;height:84px;border-radius:32px;animation:floatBalloon 7s linear infinite;opacity:0.98}
+    @keyframes floatBalloon{
+      0%{bottom:-180px}
+      60%{transform:translateY(-15px) scale(1.08)}
+      100%{bottom:120vh;transform:translateY(-60vh)}
+    }
+    .confetti{position:fixed;left:0;top:0;width:100vw;height:100vh;pointer-events:none;z-index:9;overflow:hidden}
+
+    .stage-wrapper{width:100%;max-width:720px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:18px}
+    .stage-paper{width:360px;height:360px;border-radius:22px;padding:1.2rem;display:flex;flex-direction:column;justify-content:center;align-items:center;border:6px double var(--note-border);background:linear-gradient(180deg,#fff 0%,#fff9f5 100%);box-shadow:var(--shadow)}
+    .note-square{width:86%;min-height:120px;border-radius:16px;padding:1rem;font-size:1.05rem;font-weight:700;text-align:center;background:#fff;border:1.6px solid var(--note-border);display:flex;align-items:center;justify-content:center;line-height:1.25;color:var(--text);font-family:var(--font-sans)}
+    .note-foot{font-size:.9rem;color:rgba(0,0,0,.45);margin-top:6px}
+
+    .stage-controls{display:flex;gap:14px;align-items:center;justify-content:center;margin-top:8px}
+
+    .transition-card{width:94%;max-width:520px;padding:1.6rem;border-radius:28px;background:linear-gradient(120deg,#fff9f5 60%,#ffeef9 100%);box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;gap:14px;border:4px dashed #ffe3f7}
+    .transition-imgs{display:flex;gap:22px;align-items:flex-end}
+    .transition-img{width:110px;height:132px;border-radius:16px;object-fit:cover;border:5px solid #ffe3f7;box-shadow:0 6px 22px rgba(232,62,140,0.12)}
+    .transition-now{width:126px;height:152px;border:6px solid var(--note-border)}
+    .age-detail{font-family:var(--font-cursive);color:var(--accent);text-align:center}
+
+    .quiz-card{width:97%;max-width:520px;padding:1.6rem;border-radius:20px;background:linear-gradient(135deg,#fff9f5 60%,#ffe3f7 100%);box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;gap:12px;border:4px double #ffb6d5}
+    .quiz-q{font-family:var(--font-cursive);font-size:1.35rem;color:var(--accent);text-align:center;min-height:56px}
+    .quiz-options{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;width:100%}
+    .quiz-option{padding:.85rem 1.1rem;border-radius:12px;border:2px solid #ffd1ea;background:linear-gradient(120deg,#ffeef7 85%,#fff9f5 100%);font-weight:600;cursor:pointer}
+    .quiz-option.selected{background:linear-gradient(120deg,#ffb6d5 90%,#fff9f5 100%);border:2px solid #e83e8c;color:#7a2030;transform:scale(1.03)}
+
+    .final-heading{font-family:var(--font-cursive);font-size:2.2rem;color:var(--accent);text-align:center;line-height:1.1;margin:0}
+
+    @media (max-width:600px){
+      .transition-img{width:84px;height:104px}.transition-now{width:98px;height:118px}.stage-paper{width:92%}
+      .main-heading{font-size:1.9rem}
+    }
+
+    .muted{color:rgba(0,0,0,0.54);font-size:.95rem}
+    .hidden{display:none}
+
+    /* Simple typing caret effect for accessibility hint in CSS (visual only) */
+    .type-caret::after{content:'|';opacity:0.6;margin-left:4px;animation:blink 1s steps(2,end) infinite}
+    @keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
+  </style>
+</head>
+<body>
+  <div class="bg-hearts" id="bgHearts" aria-hidden="true"></div>
+
+  <div id="confetti" class="confetti" style="display:none;"></div>
+  <div id="balloons" style="display:none;"></div>
+
+  <!-- PAGE 1 -->
+  <div id="page1" class="page active" role="region" aria-label="Opening">
+    <div class="center">
+      <div class="main-heading">🎉 Happy Birthday Angel 🎉</div>
+      <div class="sub">Wishing you a day full of smiles, love and cake!</div>
+      <div style="height:18px"></div>
+      <button id="celebrateBtn" class="btn" aria-label="Celebrate">Celebrate 🎊</button>
+    </div>
+  </div>
+
+  <!-- PAGE 2: Cake -->
+  <div id="page2" class="page" role="region" aria-label="Cake">
+    <div class="cake-area center">
+      <div style="text-align:center">
+        <h2 style="margin:6px 0 6px 0;color:var(--accent);font-family:var(--font-cursive)">Cake Time</h2>
+      </div>
+      <div id="cakeEmoji" class="cake-emoji" aria-hidden="true">🎂</div>
+      <div class="candles" id="candles" aria-hidden="true">
+        <div class="candle"><div class="flame"></div></div>
+        <div class="candle"><div class="flame"></div></div>
+        <div class="candle"><div class="flame"></div></div>
+      </div>
+      <div id="cutHint" class="muted">Click below to cut the cake</div>
+      <div style="height:8px"></div>
+      <div>
+        <button id="cutCakeBtn" class="btn" aria-label="Cut Cake">Cut Cake 🎉</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 3: Photos removed on purpose -->
+
+  <!-- PAGE 4: Special Notes (Stage) -->
+  <div id="stagePage" class="page" role="region" aria-live="polite" aria-label="Special Notes">
+    <div class="stage-wrapper center">
+      <div class="stage-paper" id="stagePaper" aria-atomic="true">
+        <div class="note-square" id="noteContent" aria-atomic="true" role="article"></div>
+        <div class="note-foot muted" id="noteFoot" aria-hidden="true"></div>
+      </div>
+      <div class="stage-controls" role="navigation" aria-label="Notes navigation">
+        <button id="prevNoteBtn" class="btn" style="display:none" aria-label="Previous Note">Prev</button>
+        <button id="nextNoteBtn" class="btn" aria-label="Next Note">Next</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 5: Transition (age) -->
+  <div id="transitionPage" class="page" role="region" aria-label="Transition">
+    <div class="transition-card center">
+      <div style="font-size:.95rem;color:rgba(0,0,0,.55)">A little look back at the journey that began</div>
+      <div class="transition-imgs" aria-hidden="true">
+        <img src="baby.jpg" alt="baby Angel" class="transition-img" id="babyImg" onerror="this.style.display='none'">
+        <img src="photo2.jpg" alt="Angel now" class="transition-now" id="nowImg" onerror="this.style.display='none'">
+      </div>
+      <div class="age-detail" id="ageDetail">Calculating...</div>
+      <div style="height:8px"></div>
+      <div>
+        <button id="toQuizBtn" class="btn" aria-label="Play Quiz">Play Game 🎲</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 6: Quiz -->
+  <div id="quizPage" class="page" role="region" aria-label="Quiz">
+    <div class="quiz-card center">
+      <div class="quiz-q" id="quizQ"></div>
+      <div class="quiz-options" id="quizOptions" role="list"></div>
+      <div style="height:6px"></div>
+      <button id="quizNextBtn" class="btn" style="display:none" aria-label="Next Question">Next</button>
+      <div id="quizFinalMsg" class="muted" style="display:none;text-align:center;margin-top:8px" aria-live="polite"></div>
+    </div>
+  </div>
+
+  <!-- PAGE 7: Final -->
+  <div id="finalPage" class="page" role="region" aria-label="Final">
+    <div class="center">
+      <div class="final-heading">You are the brightest star — keep shining, Angel ✨</div>
+      <div style="height:12px"></div>
+      <div class="muted">Hope you loved this surprise. Big hugs! 🧸❤️</div>
+    </div>
+  </div>
+
+  <!-- Music -->
+  <audio id="bdayMusic" src="music.mp3" preload="auto"></audio>
+
+  <script>
+    // Floating hearts & faces
+    const bg = document.getElementById('bgHearts');
+    function rand(min,max){return Math.random()*(max-min)+min}
+    const heartPool = ["💕","💖","🌸","💝","💞","💗"];
+    const facePool = ["🥰","😍","😚","😻","😇","😃","😘"];
+    for(let i=0;i<20;i++){
+      const el = document.createElement('span');
+      el.className = 'heart-emoji';
+      el.innerText = heartPool[Math.floor(rand(0,heartPool.length))];
+      el.style.left = rand(2,92)+'vw';
+      el.style.top = rand(2,88)+'vh';
+      el.style.fontSize = (1.1+Math.random()*2.4)+'rem';
+      el.style.animation = `floatUp ${8+Math.random()*8}s linear ${Math.random()*4}s infinite`;
+      bg.appendChild(el);
+    }
+    for(let i=0;i<6;i++){
+      const el = document.createElement('span');
+      el.className = 'face-emoji';
+      el.innerText = facePool[i%facePool.length];
+      el.style.left = rand(2,92)+'vw';
+      el.style.top = rand(3,78)+'vh';
+      el.style.fontSize = (1.4+Math.random()*1.2)+'rem';
+      el.style.animation = `floatUp ${10+Math.random()*6}s linear ${Math.random()*5}s infinite`;
+      bg.appendChild(el);
+    }
+
+    // Confetti helper
+    function createConfettiPieces(){
+      const conf = document.getElementById('confetti');
+      conf.innerHTML = '';
+      for(let i=0;i<60;i++){
+        const d = document.createElement('div');
+        d.style.position='absolute';
+        d.style.left = rand(2,98)+'vw';
+        d.style.top = '-20vh';
+        d.style.width = (6+Math.random()*10)+'px';
+        d.style.height = (10+Math.random()*18)+'px';
+        d.style.borderRadius = '3px';
+        d.style.background = i%3? (i%2? '#ff5fa2':'#ffd1ea') : '#fff9f5';
+        d.style.opacity = .95;
+        d.style.transform = `rotate(${rand(0,360)}deg)`;
+        d.style.animation = `confDrop ${2.8+Math.random()*1.6}s linear ${Math.random()*1}s forwards`;
+        conf.appendChild(d);
+      }
+    }
+    (function addConfettiKeyframe(){
+      const s = document.createElement('style');
+      s.innerHTML = `@keyframes confDrop{to{transform:translateY(120vh) rotate(360deg);opacity:0}}`;
+      document.head.appendChild(s);
+    })();
+    function showConfetti(show=true){ const c = document.getElementById('confetti'); c.style.display = show?'block':'none'; if(show){ createConfettiPieces(); } }
+
+    function createBalloons(){
+      const wrap = document.getElementById('balloons'); wrap.innerHTML='';
+      for(let i=0;i<6;i++){
+        const b = document.createElement('div');
+        b.className = 'balloon';
+        b.style.left = rand(6,92)+'vw';
+        b.style.background = i%3? (i%2? '#ffb6d5':'#ff7b54') : '#ffd1ea';
+        b.style.animationDelay = (i*0.18)+'s';
+        b.style.bottom='-160px';
+        wrap.appendChild(b);
+      }
+    }
+    function showBalloons(show=true){ const el = document.getElementById('balloons'); el.style.display = show?'block':'none'; if(show) createBalloons(); }
+
+    // Page navigation
+    function showPage(id){
+      document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+      const el = document.getElementById(id);
+      if(el) el.classList.add('active');
+      window.scrollTo({top:0,behavior:'instant'});
+    }
+
+    // Buttons
+    const celebrateBtn = document.getElementById('celebrateBtn');
+    const cutCakeBtn = document.getElementById('cutCakeBtn');
+    const cakeEmoji = document.getElementById('cakeEmoji');
+
+    celebrateBtn.addEventListener('click', ()=>{
+      showPage('page2');
+      try{ document.getElementById('bdayMusic').play(); }catch(e){}
+      showBalloons(false); showConfetti(false);
+    });
+
+    let cakeCut=false;
+    cutCakeBtn.addEventListener('click', ()=>{
+      if(cakeCut) return;
+      cakeCut=true;
+      cakeEmoji.style.transform = 'scale(.72) rotate(-6deg)';
+      setTimeout(()=>{
+        Array.from(document.querySelectorAll('.flame')).forEach(f=>f.style.opacity=0);
+        cakeEmoji.innerText = '🍰🍰';
+        cakeEmoji.style.transform = 'scale(1.06) rotate(3deg)';
+        showBalloons(true); showConfetti(true);
+        // DIRECTLY go to Special Notes (photo page removed)
+        setTimeout(()=> {
+          showPage('stagePage');
+          loadNote(0);
+        }, 1100);
+      },700);
+      cutCakeBtn.style.display='none';
+      document.getElementById('cutHint').innerHTML = `<b style="color:var(--accent)">Yay! Enjoy your cake 🎈</b>`;
+    });
+
+    /* Notes: 1,2,4,6 from original file
+       - note 2 must be EXACT from file
+       - last note slight change applied
+    */
+    const notes = [
+      {
+        color:1,
+        text: "🌹 Count your life by smiles😊, not tears😭.\nCount your age by friends, not years.\n\nHAPPY BIRTHDAY DEAR ❤\n🌹"
+      },
+      {
+        color:2,
+        text: "जन्मदिन की ढेर सारी शुभकामनाएं! भगवान तुम्हें इतनी लंबी उम्र दे कि तुम गिन भी ना पाव। (0/0 = ∞) 💝💝💝💝"
+      },
+      {
+        color:1,
+        text: "May your birthday be as amazing as you 🌹🌺💐🌻"
+      },
+      {
+        color:3,
+        text: "May this birthday be the start of a year filled with happy memories, new adventures and small daily joys. 🎂🧸❤️❤️❤️"
+      }
+    ];
+
+    let noteIndex = 0;
+    const noteContentEl = document.getElementById('noteContent');
+    const noteFoot = document.getElementById('noteFoot');
+    const nextNoteBtn = document.getElementById('nextNoteBtn');
+    const prevNoteBtn = document.getElementById('prevNoteBtn');
+
+    // Typing effect that preserves newlines and uses Montserrat for the notes
+    let typingTimer = null;
+    function typeTextInto(el, text, speed=18, callback){
+      clearInterval(typingTimer);
+      el.innerHTML = '';
+      // Replace multiple trailing spaces
+      const str = text.replace(/\s+$/,'');
+      let i=0;
+      typingTimer = setInterval(()=>{
+        if(i>str.length-1){ clearInterval(typingTimer); typingTimer=null; if(callback) callback(); return; }
+        const ch = str[i];
+        // convert special html characters
+        if(ch === '<') {
+          // escape if somehow present (shouldn't be)
+          el.innerHTML += '&lt;';
+        } else {
+          el.innerHTML += (ch === '\n' ? '<br>' : ch);
+        }
+        i++;
+      }, speed);
+    }
+
+    function loadNote(idx){
+      noteIndex = idx;
+      const n = notes[noteIndex];
+      // color background variants
+      if(n.color === 2) noteContentEl.style.background = '#f6f6fa';
+      else if(n.color === 3) noteContentEl.style.background = '#f6fdff';
+      else noteContentEl.style.background = '#fde7f7';
+      noteContentEl.style.border = '1.6px solid var(--note-border)';
+      // force font-family on note content to match original
+      noteContentEl.style.fontFamily = 'Montserrat, sans-serif';
+      noteContentEl.style.fontWeight = '700';
+      noteContentEl.style.fontSize = '1.05rem';
+      // typing effect
+      typeTextInto(noteContentEl, n.text, 20, ()=>{ noteFoot.innerText = `Note ${noteIndex+1} of ${notes.length}`; });
+      prevNoteBtn.style.display = noteIndex===0 ? 'none' : 'inline-block';
+      nextNoteBtn.innerText = (noteIndex === notes.length-1) ? 'Transition' : 'Next';
+    }
+
+    nextNoteBtn.addEventListener('click', ()=>{
+      if(noteIndex < notes.length-1){
+        loadNote(noteIndex+1);
+      } else {
+        showPage('transitionPage');
+        showBalloons(false); showConfetti(false);
+        updateAge();
+      }
+    });
+    prevNoteBtn.addEventListener('click', ()=>{
+      if(noteIndex>0) loadNote(noteIndex-1);
+    });
+
+    /* Transition / Age calculation
+       Request: transition start from 3pm 17 Nov 2010 IST
+       IST (UTC+5:30) => UTC = 2010-11-17 09:30:00
+    */
+    function msToParts(ms){
+      const s = Math.floor(ms/1000);
+      const minutes = Math.floor(s/60);
+      const hours = Math.floor(minutes/60);
+      const days = Math.floor(hours/24);
+      const weeks = Math.floor(days/7);
+      // approximate months as full months difference for a cleaner display
+      return {seconds:s,minutes,hours,days,weeks};
+    }
+
+    function updateAge(){
+      const birthUTC = new Date(Date.UTC(2010,10,17,9,30,0)); // Nov = 10 (0-index)
+      const now = new Date();
+      const diffMs = now - birthUTC;
+      const p = msToParts(diffMs);
+      // compute months approximate: year*12 + month diff
+      const approxMonths = (now.getUTCFullYear() - 2010) * 12 + (now.getUTCMonth() - 10);
+      const ageHtml = `<div style="font-size:1.05rem;color:#d81b60;font-weight:700">Angel's Journey Since Nov 17, 2010 (15:00 IST)</div>
+        <div style="margin-top:6px;font-size:1.02rem;color:#e83e8c">
+          <b>${approxMonths}</b> months • <b>${p.weeks}</b> weeks • <b>${p.days}</b> days<br>
+          <b>${p.hours}</b> hours • <b>${p.minutes}</b> minutes • <b>${p.seconds}</b> seconds
+        </div>`;
+      document.getElementById('ageDetail').innerHTML = ageHtml;
+    }
+
+    setInterval(()=>{
+      if(document.getElementById('transitionPage').classList.contains('active')){
+        updateAge();
+      }
+    },1000);
+
+    document.getElementById('toQuizBtn').addEventListener('click', ()=>{
+      showPage('quizPage');
+      startQuiz();
+    });
+
+    /* QUIZ questions: 2,4,5,6,7,9,11 from original file */
+    const quiz = [
+      { q: "How are you feeling now?", o: ["Happy", "So happy 😊💓", "Sad 😑", "Nahi batongi"] }, // original 2
+      { q: "If you could have any animal at your birthday party?", o: ["Monkey 🙊", "Horse 🦄", "Elephant 🐘", "Penguin 🐧"] }, // original 4
+      { q: "Agar tumhare birthday par ek superpower milti?", o: ["Flying ✈", "Time travel ⏳", "Teleportation 🌍", "Unlimited sweets 🍬"] }, // original 5
+      { q: "Aaj ka birthday theme song?", o: ["Lofi", "Slow Reverb", "Party", "Nagpuri or Bhojpuri"] }, // original 6
+      { q: "Birthday cake or ice cream first?", o: ["Cake 🎂", "Ice cream 🍦", "Both 🤯", "Don’t care 😎"] }, // original 7
+      { q: "Agar tum magician hoa toa kya karogi?", o: ["Sabko satogi", "Sabka bhala", "Apna bhala", "Kuch nahi"] }, // original 9
+      { q: "Which memory of ours do you cherish most?", o: ["School days", "Trip together", "Random late-night talks", "All of them ❤"] } // original 11
+    ];
+    let quizIdx = 0;
+    let quizAns = [];
+
+    function startQuiz(){
+      quizIdx=0; quizAns=[]; document.getElementById('quizFinalMsg').style.display='none'; showQuizQ();
+    }
+
+    function showQuizQ(){
+      const Q = quiz[quizIdx];
+      document.getElementById('quizQ').innerText = Q.q;
+      const optionsWrap = document.getElementById('quizOptions');
+      optionsWrap.innerHTML = '';
+      Q.o.forEach((opt,i)=>{
+        const b = document.createElement('button');
+        b.className = 'quiz-option';
+        b.innerText = opt;
+        b.setAttribute('role','listitem');
+        b.addEventListener('click', ()=>{
+          Array.from(optionsWrap.children).forEach(ch=>ch.classList.remove('selected'));
+          b.classList.add('selected');
+          quizAns[quizIdx]=opt;
+          document.getElementById('quizNextBtn').style.display='inline-block';
+        });
+        optionsWrap.appendChild(b);
+      });
+      document.getElementById('quizNextBtn').style.display = quizAns[quizIdx] ? 'inline-block' : 'none';
+      document.getElementById('quizNextBtn').innerText = (quizIdx === quiz.length-1) ? 'Finish' : 'Next';
+    }
+
+    document.getElementById('quizNextBtn').addEventListener('click', ()=>{
+      if(!quizAns[quizIdx]) return;
+      if(quizIdx < quiz.length-1){
+        quizIdx++; showQuizQ();
+        document.getElementById('quizNextBtn').style.display = quizAns[quizIdx] ? 'inline-block' : 'none';
+      } else {
+        // finish quiz
+        document.getElementById('quizQ').innerHTML = '';
+        document.getElementById('quizOptions').innerHTML = '';
+        document.getElementById('quizNextBtn').style.display = 'none';
+        document.getElementById('quizFinalMsg').style.display = 'block';
+        document.getElementById('quizFinalMsg').innerHTML = "Nice! Thanks for playing — hope you had fun! ✅";
+        showConfetti(true);
+        showBalloons(true);
+        setTimeout(()=> showPage('finalPage'), 2000);
+      }
+    });
+
+    // Initial load state
+    window.onload = ()=>{
+      showPage('page1');
+      showBalloons(false);
+      showConfetti(false);
+      prevNoteBtn.style.display = 'none';
+      nextNoteBtn.style.display = 'inline-block';
+    };
+
+    // Keyboard support
+    document.addEventListener('keydown', (e)=>{
+      if(e.key === 'Enter'){
+        const active = document.querySelector('.page.active');
+        if(active && active.id === 'page1') celebrateBtn.click();
+        if(active && active.id === 'page2' && !cakeCut) cutCakeBtn.click();
+      }
+    });
+
+    // Small: ensure no attribution appears anywhere in the page (we don't inject any text)
+  </script>
+</body>
+</html>
